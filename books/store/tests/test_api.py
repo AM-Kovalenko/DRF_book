@@ -18,6 +18,8 @@ class BooksApiTestCase(APITestCase):
         self.book_2 = Book.objects.create(name='Test book2', price=30, author_name='Author 2')
         self.book_3 = Book.objects.create(name='Test book2 Author 1', price=50, author_name='Author 1')
 
+        UserBookRelation.objects.create(user=self.user, book=self.book_1, like=True, rate=5)
+
     def test_get(self):
         url = reverse('book-list')  # для списка книг 'book-list', для конкртной книги 'book-detail
         print(url)
@@ -30,6 +32,10 @@ class BooksApiTestCase(APITestCase):
         serializer_data = BooksSerializer(books, many=True).data
         self.assertEqual(status.HTTP_200_OK, response.status_code)
         self.assertEqual(serializer_data, response.data)
+
+        self.assertEqual(serializer_data[0]['rating'], '5.00')
+        self.assertEqual(serializer_data[0]['annotated_likes'], 1)
+        self.assertEqual(serializer_data[0]['likes_count'], 1)
 
     def test_search(self):
         url = reverse('book-list')
