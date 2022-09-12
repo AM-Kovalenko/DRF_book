@@ -35,7 +35,7 @@ class BooksApiTestCase(APITestCase):
 
         self.assertEqual(serializer_data[0]['rating'], '5.00')
         self.assertEqual(serializer_data[0]['annotated_likes'], 1)
-        self.assertEqual(serializer_data[0]['likes_count'], 1)
+        # self.assertEqual(serializer_data[0]['likes_count'], 1)
 
     def test_search(self):
         url = reverse('book-list')
